@@ -1,0 +1,9 @@
+# Ignore processed video files
+processed/
+
+# Ignore node_modules if you use any build tools
+node_modules/
+
+# Optional: Ignore environment variables
+.env
+
