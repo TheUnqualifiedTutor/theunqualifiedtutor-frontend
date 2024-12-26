@@ -9,11 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
   let uploadedFileUrl = '';
 
   // Determine backend URL based on environment
-  const backendUrl = window.location.hostname === 'localhost'
-    ? 'http://localhost:3000/upload'
-    : 'https://theunqualifiedtutor-backend-512d5bea31f3.herokuapp.com/';
+  const backendUrl = 'https://theunqualifiedtutor-backend-512d5bea31f3.herokuapp.com/';
+
   console.log(backendUrl)
-  
+
   // Handle Upload Button Click
   uploadBtn.addEventListener('click', () => {
     const file = videoInput.files[0];
