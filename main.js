@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let uploadedFileUrl = '';
 
   // Determine backend URL based on environment
-  const backendUrl = 'https://theunqualifiedtutor-backend-512d5bea31f3.herokuapp.com/';
+  const backendUrl = 'https://theunqualifiedtutor-backend-512d5bea31f3.herokuapp.com/upload';
 
   console.log(backendUrl)
 
