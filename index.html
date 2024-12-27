@@ -1,8 +1,10 @@
+<!-- index.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Version Alpha 0.2</title>
+  <title>Version Alpha 0.1</title>
   <link rel="stylesheet" href="main.css">
 </head>
 <body>
@@ -18,10 +20,15 @@
   <!-- Status Message -->
   <div id="status"></div>
 
+  <!-- Progress Bar -->
+  <progress id="progressBar" value="0" max="100"></progress>
+  <br/>
+
   <!-- Processed Video Section -->
   <div id="videoSection" style="display: none;">
     <h2>Processed Video:</h2>
     <video id="uploadedVideo" controls></video>
+    <br/>
     <button id="downloadBtn">Download Video</button>
   </div>
 
