@@ -19,12 +19,18 @@
   <!-- Status Message -->
   <div id="status"></div>
 
+  <!-- Include Resumable.js -->
+  <script src="https://cdn.jsdelivr.net/npm/resumablejs@1.1.0/resumable.min.js"></script>
+
+  <!-- Add Upload Button and Progress Bar -->
+  <button id="browseBtn">Browse Files</button>
+  <progress id="progressBar" value="0" max="100"></progress>
+  <div id="status"></div>
+
   <!-- Processed Video Section -->
   <div id="videoSection" style="display: none;">
-    <h2>Processed Video (First 10 Seconds):</h2>
+    <h2>Processed Video:</h2>
     <video id="uploadedVideo" controls></video>
-    <br/>
-    <!-- Download Button -->
     <button id="downloadBtn">Download Video</button>
   </div>
 

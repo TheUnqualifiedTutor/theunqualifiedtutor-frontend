@@ -1,72 +1,70 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const uploadBtn = document.getElementById('uploadBtn');
-  const downloadBtn = document.getElementById('downloadBtn');
-  const videoInput = document.getElementById('videoInput');
+  const browseButton = document.getElementById('browseBtn');
+  const progressBar = document.getElementById('progressBar');
   const statusDiv = document.getElementById('status');
   const videoSection = document.getElementById('videoSection');
   const uploadedVideo = document.getElementById('uploadedVideo');
+  const downloadBtn = document.getElementById('downloadBtn');
 
-  let uploadedFileUrl = '';
+  let downloadToken = '';
 
-  // Determine backend URL based on environment
-  const backendUrl = 'https://theunqualifiedtutor-backend-512d5bea31f3.herokuapp.com/upload';
-
-  console.log(backendUrl)
-
-  // Handle Upload Button Click
-  uploadBtn.addEventListener('click', () => {
-    const file = videoInput.files[0];
-    if (!file) {
-      alert('Please select a video file to upload.');
-      return;
+  // Initialize Resumable.js
+  const r = new Resumable({
+    target: 'https://theunqualifiedtutor-backend-512d5bea31f3.herokuapp.com/upload',
+    chunkSize: 1 * 1024 * 1024, // 1MB chunks
+    simultaneousUploads: 3,
+    testChunks: false,
+    throttleProgressCallbacks: 1,
+    query: {},
+    headers: {
+      'Access-Control-Allow-Origin': '*', // Adjust if necessary
     }
-
-    const formData = new FormData();
-    formData.append('video', file); // 'video' matches Multer's upload.single('video')
-
-    statusDiv.innerHTML = 'Uploading...';
-
-    fetch(backendUrl, { // Use backendUrl variable
-      method: 'POST',
-      body: formData,
-    })
-      .then((response) => {
-        if (!response.ok) {
-          return response.json().then(errData => {
-            throw new Error(errData.message || 'Upload failed.');
-          });
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log('Upload successful:', data);
-        statusDiv.innerHTML = 'Upload successful!';
-        uploadedFileUrl = data.downloadUrl;
-        // Display the processed video
-        uploadedVideo.src = uploadedFileUrl;
-        videoSection.style.display = 'block';
-      })
-      .catch((error) => {
-        console.error('Error uploading video:', error);
-        statusDiv.innerHTML = `Error uploading video: ${error.message}`;
-      });
   });
 
-  // Handle Download Button Click
+  if (!r.support) {
+    alert('Your browser does not support HTML5 file uploads.');
+    return;
+  }
+
+  // Assign browse button
+  r.assignBrowse(browseButton);
+
+  // Update progress bar
+  r.on('progress', () => {
+    const progress = Math.floor(r.progress() * 100);
+    progressBar.value = progress;
+    statusDiv.innerHTML = `Uploading... ${progress}%`;
+  });
+
+  // Handle file added
+  r.on('fileAdded', (file) => {
+    r.upload();
+  });
+
+  // Handle successful upload
+  r.on('fileSuccess', (file, message) => {
+    const response = JSON.parse(message);
+    downloadToken = response.downloadToken;
+    statusDiv.innerHTML = 'Upload successful!';
+    progressBar.value = 100;
+    // Display the processed video
+    uploadedVideo.src = `https://theunqualifiedtutor-backend-512d5bea31f3.herokuapp.com/download/${downloadToken}`;
+    videoSection.style.display = 'block';
+  });
+
+  // Handle upload error
+  r.on('fileError', (file, message) => {
+    console.error('Error uploading video:', message);
+    statusDiv.innerHTML = `Error uploading video: ${message}`;
+  });
+
+  // Handle download button click
   downloadBtn.addEventListener('click', () => {
-    if (!uploadedFileUrl) {
+    if (!downloadToken) {
       alert('No video to download.');
       return;
     }
-    // Create a temporary link to trigger download
-    const link = document.createElement('a');
-    link.href = uploadedFileUrl;
-    // Extract filename from URL
-    const urlParts = uploadedFileUrl.split('/');
-    link.download = urlParts[urlParts.length - 1];
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    window.location.href = `https://theunqualifiedtutor-backend-512d5bea31f3.herokuapp.com/download/${downloadToken}`;
   });
 });
   
