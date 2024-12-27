@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const browseButton = document.getElementById('browseBtn');
+  const videoInput = document.getElementById('videoInput');
+  const uploadButton = document.getElementById('uploadBtn');
   const progressBar = document.getElementById('progressBar');
   const statusDiv = document.getElementById('status');
   const videoSection = document.getElementById('videoSection');
@@ -8,54 +9,70 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let downloadToken = '';
 
-  // Initialize Resumable.js
-  const r = new Resumable({
-    target: 'https://theunqualifiedtutor-backend-512d5bea31f3.herokuapp.com/upload',
-    chunkSize: 1 * 1024 * 1024, // 1MB chunks
-    simultaneousUploads: 3,
-    testChunks: false,
-    throttleProgressCallbacks: 1,
-    query: {},
-    headers: {
-      'Access-Control-Allow-Origin': '*', // Adjust if necessary
+  uploadButton.addEventListener('click', () => {
+    const file = videoInput.files[0];
+    if (!file) {
+      alert('Please select a video file to upload.');
+      return;
     }
-  });
 
-  if (!r.support) {
-    alert('Your browser does not support HTML5 file uploads.');
-    return;
-  }
+    if (file.size > 100 * 1024 * 1024) { // 100MB in bytes
+      alert('File size exceeds 100MB.');
+      return;
+    }
 
-  // Assign browse button
-  r.assignBrowse(browseButton);
+    const formData = new FormData();
+    formData.append('video', file);
 
-  // Update progress bar
-  r.on('progress', () => {
-    const progress = Math.floor(r.progress() * 100);
-    progressBar.value = progress;
-    statusDiv.innerHTML = `Uploading... ${progress}%`;
-  });
+    statusDiv.innerHTML = 'Uploading... 0%';
+    progressBar.value = 0;
 
-  // Handle file added
-  r.on('fileAdded', (file) => {
-    r.upload();
-  });
+    // Create an XMLHttpRequest to track upload progress
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://theunqualifiedtutor-backend-512d5bea31f3.herokuapp.com/upload', true);
 
-  // Handle successful upload
-  r.on('fileSuccess', (file, message) => {
-    const response = JSON.parse(message);
-    downloadToken = response.downloadToken;
-    statusDiv.innerHTML = 'Upload successful!';
-    progressBar.value = 100;
-    // Display the processed video
-    uploadedVideo.src = `https://theunqualifiedtutor-backend-512d5bea31f3.herokuapp.com/download/${downloadToken}`;
-    videoSection.style.display = 'block';
-  });
+    // Update progress bar 
+    xhr.upload.onprogress = function(event) {
+      if (event.lengthComputable) {
+        const percentComplete = Math.floor((event.loaded / event.total) * 100);
+        statusDiv.innerHTML = `Uploading... ${percentComplete}%`;
+        progressBar.value = percentComplete;
+      }
+    };
 
-  // Handle upload error
-  r.on('fileError', (file, message) => {
-    console.error('Error uploading video:', message);
-    statusDiv.innerHTML = `Error uploading video: ${message}`;
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        const response = JSON.parse(xhr.responseText);
+        if (response.downloadToken) {
+          downloadToken = response.downloadToken;
+          statusDiv.innerHTML = 'Upload successful!';
+          progressBar.value = 100;
+          // Display the processed video
+          uploadedVideo.src = `https://theunqualifiedtutor-backend-512d5bea31f3.herokuapp.com/download/${downloadToken}`;
+          videoSection.style.display = 'block';
+        } else {
+          statusDiv.innerHTML = 'Upload failed.';
+        }
+      } else {
+        // Attempt to parse error message from server
+        let errorMsg = 'Error uploading video.';
+        try {
+          const errorResponse = JSON.parse(xhr.responseText);
+          if (errorResponse.message) {
+            errorMsg = `Error uploading video: ${errorResponse.message}`;
+          }
+        } catch (e) {
+          // Unable to parse JSON, keep default message
+        }
+        statusDiv.innerHTML = errorMsg;
+      }
+    };
+
+    xhr.onerror = function() {
+      statusDiv.innerHTML = 'Error uploading video.';
+    };
+
+    xhr.send(formData);
   });
 
   // Handle download button click
@@ -67,4 +84,3 @@ document.addEventListener('DOMContentLoaded', () => {
     window.location.href = `https://theunqualifiedtutor-backend-512d5bea31f3.herokuapp.com/download/${downloadToken}`;
   });
 });
-  
