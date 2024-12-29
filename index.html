@@ -1,8 +1,10 @@
+<!-- index.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Video Upload</title>
+  <title>Video Upload and Clipping</title>
   <link rel="stylesheet" href="main.css">
 </head>
 <body>
@@ -10,7 +12,7 @@
   
   <form id="uploadForm">
     <label for="videoInput">Select Video:</label>
-    <input type="file" id="videoInput" name="video" accept="video/mp4" required><br><br>
+    <input type="file" id="videoInput" name="video" accept="video/mp4" required>
 
     <label>Select Video Orientation:</label><br>
     <input type="radio" id="horizontal" name="orientation" value="horizontal" checked>
@@ -21,13 +23,23 @@
     <label for="square">Square</label><br><br>
 
     <label for="fromTime">Clip From (HH:MM:SS or seconds):</label>
-    <input type="text" id="fromTime" name="fromTime" placeholder="e.g., 00:00:10 or 10"><br>
+    <input type="text" id="fromTime" name="fromTime" placeholder="e.g., 00:00:10 or 10">
+    <span id="fromTimeError"></span>
 
     <label for="toTime">Clip To (HH:MM:SS or seconds):</label>
-    <input type="text" id="toTime" name="toTime" placeholder="e.g., 00:00:20 or 20"><br>
+    <input type="text" id="toTime" name="toTime" placeholder="e.g., 00:00:20 or 20">
+    <span id="toTimeError"></span>
 
     <button type="button" id="uploadBtn">Upload Video</button>
   </form>
+
+  <!-- Upload Progress Bar -->
+  <div class="progress-container" id="uploadProgressContainer">
+    <div class="progress-bar" id="uploadProgressBar">0%</div>
+  </div>
+
+  <!-- Processing Indicator -->
+  <div id="processingIndicator">Processing video, please wait...</div>
 
   <!-- Video Display Section -->
   <div id="videoSection" style="display: none;">
