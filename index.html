@@ -1,21 +1,40 @@
-<!-- index.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Version Alpha 0.3</title>
-  <link rel="stylesheet" href="main.css">
+  <title>Video Upload</title>
+  <style>
+    /* Optional: Add some basic styling for better UX */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input[type="text"], input[type="file"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+    }
+    #videoSection {
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Automatic Clipping Tool</h1>
-
-  <!-- Upload Form -->
+  <h1>Upload and Clip Your Video</h1>
+  
   <form id="uploadForm">
     <label for="videoInput">Select Video:</label>
     <input type="file" id="videoInput" name="video" accept="video/mp4" required>
 
-    <br><label>Select Video Orientation:</label><br>
+    <label>Select Video Orientation:</label><br>
     <input type="radio" id="horizontal" name="orientation" value="horizontal" checked>
     <label for="horizontal">Horizontal</label><br>
     <input type="radio" id="vertical" name="orientation" value="vertical">
@@ -23,23 +42,23 @@
     <input type="radio" id="square" name="orientation" value="square">
     <label for="square">Square</label><br><br>
 
+    <label for="fromTime">Clip From (HH:MM:SS or seconds):</label>
+    <input type="text" id="fromTime" name="fromTime" placeholder="e.g., 00:00:10 or 10">
+
+    <label for="toTime">Clip To (HH:MM:SS or seconds):</label>
+    <input type="text" id="toTime" name="toTime" placeholder="e.g., 00:00:20 or 20">
+
     <button type="button" id="uploadBtn">Upload Video</button>
   </form>
 
-  <!-- Status Message -->
-  <div id="status"></div>
-
-  <!-- Progress Bar -->
-  <progress id="progressBar" value="0" max="100"></progress>
-  <br/>
-
   <!-- Video Display Section -->
   <div id="videoSection" style="display: none;">
+    <h2>Processed Video:</h2>
     <video id="uploadedVideo" controls></video>
+    <br>
     <a id="downloadBtn" href="#" download>Download Video</a>
   </div>
 
-  <!-- Frontend JavaScript -->
   <script src="main.js"></script>
 </body>
 </html>
