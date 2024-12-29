@@ -4,18 +4,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Version Alpha 0.1</title>
+  <title>Version Alpha 0.3</title>
   <link rel="stylesheet" href="main.css">
 </head>
 <body>
-  <h1>Video Upload and Download Test</h1>
+  <h1>Automatic Clipping Tool</h1>
 
   <!-- Video File Input -->
   <input type="file" id="videoInput" accept="video/mp4" />
   <br/>
 
-  <!-- Upload Button -->
-  <button id="uploadBtn">Upload Video (Max 100MB)</button>
+  <!-- Upload Form -->
+  <form id="uploadForm">
+    <label for="videoInput">Select Video:</label>
+    <input type="file" id="videoInput" name="video" accept="video/mp4" required>
+
+    <label>Select Video Orientation:</label><br>
+    <input type="radio" id="horizontal" name="orientation" value="horizontal" checked>
+    <label for="horizontal">Horizontal</label><br>
+    <input type="radio" id="vertical" name="orientation" value="vertical">
+    <label for="vertical">Vertical</label><br>
+    <input type="radio" id="square" name="orientation" value="square">
+    <label for="square">Square</label><br><br>
+
+    <button type="button" id="uploadBtn">Upload Video</button>
+  </form>
 
   <!-- Status Message -->
   <div id="status"></div>
@@ -24,12 +37,10 @@
   <progress id="progressBar" value="0" max="100"></progress>
   <br/>
 
-  <!-- Processed Video Section -->
+  <!-- Video Display Section -->
   <div id="videoSection" style="display: none;">
-    <h2>Processed Video:</h2>
     <video id="uploadedVideo" controls></video>
-    <br/>
-    <button id="downloadBtn">Download Video</button>
+    <a id="downloadBtn" href="#" download>Download Video</a>
   </div>
 
   <!-- Frontend JavaScript -->

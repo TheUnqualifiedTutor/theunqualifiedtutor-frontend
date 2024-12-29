@@ -76,11 +76,49 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Handle download button click
-  downloadBtn.addEventListener('click', () => {
-    if (!downloadToken) {
-      alert('No video to download.');
+  document.getElementById('uploadBtn').addEventListener('click', () => {
+    const videoInput = document.getElementById('videoInput');
+    const file = videoInput.files[0];
+  
+    if (!file) {
+      alert('Please select a video file to upload.');
       return;
     }
-    window.location.href = `https://theunqualifiedtutor-backend-512d5bea31f3.herokuapp.com/download/${downloadToken}`;
+  
+    // Determine the selected orientation
+    let orientation;
+    const orientationElement = document.getElementById('orientation');
+    if (orientationElement.tagName.toLowerCase() === 'select') {
+      // Dropdown selection
+      orientation = orientationElement.value;
+    } else {
+      // Radio buttons
+      orientation = document.querySelector('input[name="orientation"]:checked').value;
+    }
+  
+    const formData = new FormData();
+    formData.append('video', file);
+    formData.append('orientation', orientation); // Append orientation
+  
+    fetch('https://theunqualifiedtutor-backend-512d5bea31f3.herokuapp.com/upload', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.downloadToken) {
+        const downloadUrl = `https://theunqualifiedtutor-backend-512d5bea31f3.herokuapp.com/download/${data.downloadToken}`;
+        // Update the frontend to use this downloadUrl
+        document.getElementById('uploadedVideo').src = downloadUrl;
+        document.getElementById('downloadBtn').href = downloadUrl;
+        document.getElementById('videoSection').style.display = 'block';
+      } else {
+        alert('Upload failed. Please try again.');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('An error occurred during the upload.');
+    });
   });
 });
