@@ -4,13 +4,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Video Upload and Clipping</title>
+  <title>LaughSaaS</title>
   <link rel="stylesheet" href="main.css">
 </head>
-<body>
-  <h1>Upload and Clip Your Video</h1>
-  
+<body>  
+  <!-- Background -->
+  <video autoplay muted loop id="myVideo">
+    <source src="background.mp4" type="video/mp4">
+  </video>
+
   <form id="uploadForm">
+    <h1>LaughSaaS</h1>
     <label for="videoInput">Select Video:</label>
     <input type="file" id="videoInput" name="video" accept="video/mp4" required><br><br>
 
