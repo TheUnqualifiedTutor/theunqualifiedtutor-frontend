@@ -88,12 +88,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Determine the selected orientation
     let orientation;
     const orientationElement = document.getElementById('orientation');
-    if (orientationElement.tagName.toLowerCase() === 'select') {
-      // Dropdown selection
+    
+    if (orientationElement) {
       orientation = orientationElement.value;
     } else {
-      // Radio buttons
-      orientation = document.querySelector('input[name="orientation"]:checked').value;
+      console.error('Orientation selection element not found.');
+      orientation = 'horizontal'; // Fallback to horizontal
     }
   
     const formData = new FormData();
@@ -109,9 +109,17 @@ document.addEventListener('DOMContentLoaded', () => {
       if (data.downloadToken) {
         const downloadUrl = `https://theunqualifiedtutor-backend-512d5bea31f3.herokuapp.com/download/${data.downloadToken}`;
         // Update the frontend to use this downloadUrl
-        document.getElementById('uploadedVideo').src = downloadUrl;
-        document.getElementById('downloadBtn').href = downloadUrl;
-        document.getElementById('videoSection').style.display = 'block';
+        const uploadedVideo = document.getElementById('uploadedVideo');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const videoSection = document.getElementById('videoSection');
+  
+        if (uploadedVideo && downloadBtn && videoSection) {
+          uploadedVideo.src = downloadUrl;
+          downloadBtn.href = downloadUrl;
+          videoSection.style.display = 'block';
+        } else {
+          console.error('Video elements not found in the DOM.');
+        }
       } else {
         alert('Upload failed. Please try again.');
       }
