@@ -1,47 +1,154 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+/* Global Styles */
 body {
-  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f0f4f8; /* Light blue-gray background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-#status {
-  margin-top: 10px;
-  font-weight: bold;
+/* Container */
+.container {
+  background-color: #ffffff; /* White background for the box */
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 400px;
 }
 
-progress {
+/* Heading */
+.container h1 {
+  text-align: center;
+  color: #333333;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+/* Form Styles */
+form label {
+  display: block;
+  margin-top: 15px;
+  color: #555555;
+  font-weight: 500;
+}
+
+form input[type="file"],
+form input[type="text"],
+form input[type="radio"] {
   width: 100%;
-  height: 20px;
-  margin-top: 10px;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 14px;
 }
 
-#videoSection {
+form input[type="radio"] {
+  width: auto;
+  margin-right: 5px;
+}
+
+form button {
+  width: 100%;
+  padding: 12px;
   margin-top: 20px;
+  background-color: #007BFF; /* Bootstrap Blue */
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-input {
-  display: inline;
+form button:hover {
+  background-color: #0056b3; /* Darker Blue on Hover */
 }
 
-/* Progress Bar Styling */
+/* Progress Bar Styles */
 .progress-container {
   width: 100%;
-  background-color: #f3f3f3;
+  background-color: #e0e0e0;
   border-radius: 5px;
-  margin-top: 10px;
+  margin-top: 15px;
   display: none; /* Hidden by default */
 }
+
 .progress-bar {
   width: 0%;
   height: 20px;
-  background-color: #4caf50;
+  background-color: #28a745; /* Bootstrap Green */
   border-radius: 5px;
   text-align: center;
   color: white;
   line-height: 20px;
   font-size: 12px;
+  transition: width 0.4s ease;
 }
+
 /* Processing Indicator */
 #processingIndicator {
   display: none;
+  margin-top: 15px;
+  text-align: center;
+  color: #555555;
+  font-weight: 500;
+}
+
+/* Video Section */
+#videoSection {
+  margin-top: 20px;
+  text-align: center;
+}
+
+#videoSection h2 {
+  color: #333333;
+  margin-bottom: 10px;
+}
+
+#videoSection video {
+  width: 100%;
+  max-height: 200px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#downloadBtn {
+  display: inline-block;
   margin-top: 10px;
-  color: #555;
+  padding: 10px 20px;
+  background-color: #17a2b8; /* Bootstrap Teal */
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+#downloadBtn:hover {
+  background-color: #117a8b; /* Darker Teal on Hover */
+}
+
+/* Error Messages */
+#fromTimeError,
+#toTimeError {
+  display: block;
+  margin-top: 5px;
+  color: #dc3545; /* Bootstrap Red */
+  font-size: 12px;
+}
+
+@media (max-width: 450px) {
+  .container {
+    width: 90%;
+    padding: 20px 25px;
+  }
 }
