@@ -12,7 +12,7 @@
   
   <form id="uploadForm">
     <label for="videoInput">Select Video:</label>
-    <input type="file" id="videoInput" name="video" accept="video/mp4" required>
+    <input type="file" id="videoInput" name="video" accept="video/mp4" required><br><br>
 
     <label>Select Video Orientation:</label><br>
     <input type="radio" id="horizontal" name="orientation" value="horizontal" checked>
@@ -23,11 +23,11 @@
     <label for="square">Square</label><br><br>
 
     <label for="fromTime">Clip From (HH:MM:SS or seconds):</label>
-    <input type="text" id="fromTime" name="fromTime" placeholder="e.g., 00:00:10 or 10">
+    <input type="text" id="fromTime" name="fromTime" placeholder="e.g., 00:00:10 or 10"><br>
     <span id="fromTimeError"></span>
 
     <label for="toTime">Clip To (HH:MM:SS or seconds):</label>
-    <input type="text" id="toTime" name="toTime" placeholder="e.g., 00:00:20 or 20">
+    <input type="text" id="toTime" name="toTime" placeholder="e.g., 00:00:20 or 20"><br>
     <span id="toTimeError"></span>
 
     <button type="button" id="uploadBtn">Upload Video</button>
