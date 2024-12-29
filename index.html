@@ -3,36 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <title>Video Upload</title>
-  <style>
-    /* Optional: Add some basic styling for better UX */
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-    }
-    label {
-      display: block;
-      margin-top: 10px;
-    }
-    input[type="text"], input[type="file"] {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-    }
-    button {
-      margin-top: 15px;
-      padding: 10px 20px;
-    }
-    #videoSection {
-      margin-top: 20px;
-    }
-  </style>
+  <link rel="stylesheet" href="main.css">
 </head>
 <body>
   <h1>Upload and Clip Your Video</h1>
   
   <form id="uploadForm">
     <label for="videoInput">Select Video:</label>
-    <input type="file" id="videoInput" name="video" accept="video/mp4" required>
+    <input type="file" id="videoInput" name="video" accept="video/mp4" required><br><br>
 
     <label>Select Video Orientation:</label><br>
     <input type="radio" id="horizontal" name="orientation" value="horizontal" checked>
@@ -43,10 +21,10 @@
     <label for="square">Square</label><br><br>
 
     <label for="fromTime">Clip From (HH:MM:SS or seconds):</label>
-    <input type="text" id="fromTime" name="fromTime" placeholder="e.g., 00:00:10 or 10">
+    <input type="text" id="fromTime" name="fromTime" placeholder="e.g., 00:00:10 or 10"><br>
 
     <label for="toTime">Clip To (HH:MM:SS or seconds):</label>
-    <input type="text" id="toTime" name="toTime" placeholder="e.g., 00:00:20 or 20">
+    <input type="text" id="toTime" name="toTime" placeholder="e.g., 00:00:20 or 20"><br>
 
     <button type="button" id="uploadBtn">Upload Video</button>
   </form>
